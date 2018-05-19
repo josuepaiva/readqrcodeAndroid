@@ -2,6 +2,7 @@ package josuepaiva.leitorqrcode;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -52,28 +53,37 @@ public class MainActivity extends AppCompatActivity {
 
         if(result != null) {
             if(result.getContents() != null) {
-                try {
 
-                    json = new JSONObject(result.getContents());
+                if(result.getContents().matches("([a-zA-Z]{3,})://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?")){
+                    Uri uri = Uri.parse(result.getContents());
 
-                    Aluno aluno = new Aluno();
-                    aluno.setNome(json.getString("nome"));
-                    aluno.setIdade(json.getInt("idade"));
-                    aluno.setMatricula(json.getString("matricula"));
-                    aluno.setCurso(json.getString("curso"));
-                    aluno.setData_formacao(json.getString("data_formacao"));
-                    aluno.setData_ingresso(json.getString("data_ingresso"));
-                    aluno.setEmail(json.getString("email"));
-                    aluno.setCentro(json.getString("centro"));
-
-                    Intent intent = new Intent(getApplicationContext(), VisualizarDadosActivity.class);
-                    intent.putExtra("Aluno", aluno);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
+                }else{
+                    try {
 
-                } catch (JSONException e) {
-                    alert("Erro na criação do json");
+                        json = new JSONObject(result.getContents());
+
+                        Aluno aluno = new Aluno();
+                        aluno.setNome(json.getString("nome"));
+                        aluno.setIdade(json.getInt("idade"));
+                        aluno.setMatricula(json.getString("matricula"));
+                        aluno.setCurso(json.getString("curso"));
+                        aluno.setData_formacao(json.getString("data_formacao"));
+                        aluno.setData_ingresso(json.getString("data_ingresso"));
+                        aluno.setEmail(json.getString("email"));
+                        aluno.setCentro(json.getString("centro"));
+
+                        Intent intent = new Intent(getApplicationContext(), VisualizarDadosActivity.class);
+                        intent.putExtra("Aluno", aluno);
+                        startActivity(intent);
+
+                    } catch (JSONException e) {
+                        alert("Erro na criação do json");
+                    }
+                    alert(result.getContents());
                 }
-                alert(result.getContents());
+
             }else {
                 alert("Scan cancelado");
             }
