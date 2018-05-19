@@ -6,8 +6,8 @@
     <string name="idade">Idade</string>
     <string name="matricula">Matricula</string>
     <string name="curso">Curso</string>
-    <string name="data_formacao">Data_formacao</string>
-    <string name="data_ingresso">Data_ingresso</string>
+    <string name="data_formacao">Data Formacao</string>
+    <string name="data_ingresso">Data Ingresso</string>
     <string name="email">Email</string>
     <string name="centro">Centro</string>
 

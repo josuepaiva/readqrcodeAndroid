@@ -1,6 +1,9 @@
 package models;
 
-public class Aluno {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Aluno implements Parcelable{
     private String nome;
     private int idade;
     private String matricula;
@@ -95,4 +98,49 @@ public class Aluno {
     public void setCentro(String centro) {
         this.centro = centro;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(nome);
+        dest.writeInt(idade);
+        dest.writeString(matricula);
+        dest.writeString(curso);
+        dest.writeString(data_formacao);
+        dest.writeString(data_ingresso);
+        dest.writeString(email);
+        dest.writeString(centro);
+    }
+
+    public static final Parcelable.Creator<Aluno> CREATOR = new Parcelable.Creator<Aluno>(){
+        @Override
+        public Aluno createFromParcel(Parcel source) {
+
+            return new Aluno(source);
+        }
+
+        @Override
+        public Aluno[] newArray(int size) {
+
+            throw new UnsupportedOperationException();
+        }
+    };
+
+    public Aluno(Parcel source) {
+
+        this.nome = source.readString();
+        this.idade = source.readInt();
+        this.matricula = source.readString();
+        this.curso = source.readString();
+        this.data_formacao = source.readString();
+        this.data_ingresso = source.readString();
+        this.email = source.readString();
+        this.centro = source.readString();
+    }
+
 }
